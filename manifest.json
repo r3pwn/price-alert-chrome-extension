@@ -22,7 +22,8 @@
   },
   "permissions": ["scripting", "activeTab", "webNavigation"],
   "host_permissions": [
-    "https://www.target.com/p/*"
+    "https://www.target.com/p/*",
+    "https://www.walmart.com/ip/*"
   ],
   "web_accessible_resources": [
     {

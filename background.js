@@ -1,5 +1,6 @@
 const SITES = {
-  'www.target.com/p/': 'scripts/sites/target.js'
+  'www.target.com/p/': 'scripts/sites/target.js',
+  'www.walmart.com/ip/': 'scripts/sites/walmart.js'
 }
 
 // When the user clicks on the extension action
@@ -18,8 +19,10 @@ for (let path of Object.keys(SITES)) {
       files: [SITES[path]],
     });
   }, {
-    url: [{
-      originAndPathMatches: path
-    }],
+    url: [
+      {
+        originAndPathMatches: path
+      }
+    ],
   });
 }
