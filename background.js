@@ -1,4 +1,5 @@
 const SITES = {
+  'www.kroger.com/p/': 'scripts/sites/kroger.js',
   'www.target.com/p/': 'scripts/sites/target.js',
   'www.walmart.com/ip/': 'scripts/sites/walmart.js'
 }

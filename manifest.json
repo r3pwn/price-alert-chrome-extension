@@ -22,6 +22,7 @@
   },
   "permissions": ["scripting", "activeTab", "webNavigation"],
   "host_permissions": [
+    "https://www.kroger.com/p/*",
     "https://www.target.com/p/*",
     "https://www.walmart.com/ip/*"
   ],
