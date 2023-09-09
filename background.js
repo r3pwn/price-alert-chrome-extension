@@ -9,7 +9,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 });
 
 for (let path of Object.keys(SITES)) {
-  chrome.webNavigation.onCompleted.addListener(async (details) => {
+  const listener = async (details) => {
     await chrome.scripting.insertCSS({
       files: ['price-badge.css'],
       target: { tabId: details.tabId }
@@ -18,11 +18,14 @@ for (let path of Object.keys(SITES)) {
       target: {tabId: details.tabId, allFrames: true},
       files: [SITES[path]],
     });
-  }, {
-    url: [
-      {
-        originAndPathMatches: path
-      }
-    ],
-  });
+  };
+  const filter = {
+    url: [{ originAndPathMatches: path }]
+  };
+
+  /* several e-commerce sites seem to be using some kind of router, so make sure we fire 
+   * on full page loads as well as "soft" page loads
+   */
+  chrome.webNavigation.onCompleted.addListener(listener, filter);
+  chrome.webNavigation.onHistoryStateUpdated.addListener(listener, filter);
 }
