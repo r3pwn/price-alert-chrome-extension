@@ -1,0 +1,22 @@
+{
+    "PUBLIX": {
+        "name": "Publix",
+        "image": "/images/store-logos/Publix-Logo.png",
+        "script": "/scripts/sites/publix.js"
+    },
+    "KROGER": {
+        "name": "Kroger",
+        "image": "/images/store-logos/Kroger-Logo.png",
+        "script": "/scripts/sites/kroger.js"
+    },
+    "TARGET": {
+        "name": "Target",
+        "image": "/images/store-logos/Target-Logo.png",
+        "script": "/scripts/sites/target.js"
+    },
+    "WALMART": {
+        "name": "Walmart",
+        "image": "/images/store-logos/Walmart-Logo.png",
+        "script": "/scripts/sites/walmart.js"
+    }
+}
