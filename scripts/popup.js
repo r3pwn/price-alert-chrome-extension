@@ -32,6 +32,7 @@ data.forEach(store => {
         const $price = $tempElement.find(".price")[0]
 
         $image.src = STORES[store.name.toUpperCase()].image;
+        $image.alt = STORES[store.name.toUpperCase()].name;
         $storeName.innerText = STORES[store.name.toUpperCase()].name;
 
         $(".store-list").append($listElement);
