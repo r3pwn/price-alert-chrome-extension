@@ -1,0 +1,58 @@
+.pa-popup-wrapper {
+    margin: 0;
+    overflow: hidden;
+    width: 348px;
+    font-family: 'Roboto', 'sans-serif';
+}
+
+.popup {
+    min-height: 200px;
+}
+
+.popup-title {
+    text-align: center;
+}
+
+.store-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+}
+
+.store {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: gray solid 1px;
+    padding-bottom: 0.5rem;
+}
+
+.store:last-of-type {
+    border-bottom: none;
+}
+
+.left-column {
+    align-content: center;
+}
+
+.store-image {
+    width: 50px;
+}
+
+.store-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.store-name {
+    width: 70px;
+}
+
+.price-percentage {
+    border-radius: 5px;
+    background-color: fuchsia;
+    color: white;
+    font-weight: bold;
+    padding: 0.25rem 0.7rem;
+}
