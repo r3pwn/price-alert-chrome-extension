@@ -11,15 +11,21 @@
   // for debugging purposes. remove later
   priceBadge.classList.add('visually-distinct-price-badge');
 
-  const returnedProducts = await utils.getProductBy('TCIN', tcin);
+  let returnedProduct;
 
-  if (returnedProducts.error) {
+  await utils.getProductBy('TCIN', tcin)
+    .then((response) => {
+      returnedProduct = response?.[0];
+    })
+    .catch(() => {
+      console.log('no product found for tcin', tcin);
+    });
+
+  if (!returnedProduct) {
     // we don't have info on this product, we can skip it for now
     return;
   }
 
-  const relevantProduct = returnedProducts?.[0];
-
-  console.log('found product', relevantProduct.productName)
-  console.table(relevantProduct.prices)
+  console.log('found product', returnedProduct.productName)
+  console.table(returnedProduct.prices)
 })()
