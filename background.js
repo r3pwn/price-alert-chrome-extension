@@ -27,6 +27,7 @@ for (let path of Object.keys(SITES)) {
   /* several e-commerce sites seem to be using some kind of router, so make sure we fire 
    * on full page loads as well as "soft" page loads
    */
-  chrome.webNavigation.onCompleted.addListener(listener, filter);
+  // this one may not be needed, TBD
+  // chrome.webNavigation.onCompleted.addListener(listener, filter);
   chrome.webNavigation.onHistoryStateUpdated.addListener(listener, filter);
 }

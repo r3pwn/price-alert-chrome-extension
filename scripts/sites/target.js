@@ -13,6 +13,11 @@
 
   const returnedProducts = await utils.getProductBy('TCIN', tcin);
 
+  if (returnedProducts.error) {
+    // we don't have info on this product, we can skip it for now
+    return;
+  }
+
   const relevantProduct = returnedProducts?.[0];
 
   console.log('found product', relevantProduct.productName)
