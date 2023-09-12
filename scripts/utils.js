@@ -1,3 +1,5 @@
+const API_BASE = 'https://price-analysis-tool.onrender.com';
+
 /**
  * waits for an element matching the given selector to exist
  * @param {string} selector
@@ -59,3 +61,39 @@ export const timeoutPromise = (promise, reason, ms) => {
     throw new Error(error);
   });
 }
+
+/**
+ * Returns an array of products matching the given criteria
+ * @param {ProductIdType} idType 
+ * @param {string} idValue 
+ * @returns {Promise<Product[]>}
+ */
+export const getProductBy = async (idType, idValue) => 
+  fetch(`${API_BASE}/api/products/by${idType.toLowerCase()}/${idValue}`).then(res => res.json());
+
+
+/**
+ * @typedef {'UPC' | 'TCIN'} ProductIdType
+ */
+
+/**
+ * @typedef {Object} Product
+ * @property {string} productName
+ * @property {string} productSize
+ * @property {ProductId[]} productIds
+ * @property {ProductPrice[]} prices
+ */
+
+/**
+ * @typedef {Object} ProductId
+ * @property {ProductIdType} idType
+ * @property {string} idValue
+ */
+
+/**
+ * @typedef {Object} ProductPrice
+ * @property {string} vendor
+ * @property {number} price
+ * @property {boolean} onSale
+ * @property {number} originalPrice
+ */
