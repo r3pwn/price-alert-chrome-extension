@@ -69,11 +69,18 @@ export const timeoutPromise = (promise, reason, ms) => {
  * @returns {Promise<Product[]>}
  */
 export const getProductBy = async (idType, idValue) => 
-  fetch(`${API_BASE}/api/products/by${idType.toLowerCase()}/${idValue}`).then(res => res.json());
+  new Promise((resolve, reject) => {
+    return fetch(`${API_BASE}/api/products/by${idType.toLowerCase()}/${idValue}`)
+      .then(res => res.json())
+      .then(res => {
+        res.error && reject(res.error);
+        !res.error && resolve(res);
+      });
+  });
 
 
 /**
- * @typedef {'UPC' | 'TCIN'} ProductIdType
+ * @typedef {'UPC' | 'TCIN' | 'WalmartItemId'} ProductIdType
  */
 
 /**
