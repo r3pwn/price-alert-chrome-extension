@@ -11,6 +11,8 @@
   // for debugging purposes. remove later
   priceBadge.classList.add('visually-distinct-price-badge');
 
+  utils.addExtensionMessage(priceBadge)
+
   let returnedProduct;
 
   await utils.getProduct('Walmart', itemId)

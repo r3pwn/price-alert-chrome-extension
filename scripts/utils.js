@@ -78,6 +78,23 @@ export const getProduct = async (vendor, idValue) =>
       });
   });
 
+  /**
+   * Adds the extension message under the price element
+   * @param {Element} priceContainer - Container of the price element
+   */
+export const addExtensionMessage = (priceContainer) => {
+    const parentElement = priceContainer.parentElement;
+  
+    const extensionMessage = document.createElement('span');
+    extensionMessage.style.color = 'green'
+    extensionMessage.style.display = 'block'
+    extensionMessage.style.fontSize = '1rem'
+    extensionMessage.innerHTML = `
+    Press <span style="border: 1px solid gray; border-radius: 6px; padding: 3px;">Ctrl + B</span> to see other offers!
+    `
+    parentElement.append(extensionMessage)
+  }
+
 
 /**
  * @typedef {'Walmart' | 'Kroger' | 'Target'} ProductVendor

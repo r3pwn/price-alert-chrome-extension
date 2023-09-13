@@ -2,10 +2,3 @@
   color: fuchsia;
   font-weight: bold;
 }
-
-.visually-distinct-price-badge::after {
-  display: block;
-  content: 'Press Ctrl + B to see other offers!';
-  font-size: 0.75rem;
-  color: green;
-}
