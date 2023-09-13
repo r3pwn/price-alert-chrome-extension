@@ -64,13 +64,13 @@ export const timeoutPromise = (promise, reason, ms) => {
 
 /**
  * Returns an array of products matching the given criteria
- * @param {ProductIdType} idType 
+ * @param {ProductVendor} vendor 
  * @param {string} idValue 
- * @returns {Promise<Product[]>}
+ * @returns {Promise<Product>}
  */
-export const getProductBy = async (idType, idValue) => 
+export const getProduct = async (vendor, idValue) => 
   new Promise((resolve, reject) => {
-    return fetch(`${API_BASE}/api/products/by${idType.toLowerCase()}/${idValue}`)
+    return fetch(`${API_BASE}/api/products/${vendor.toLowerCase()}/${idValue}`)
       .then(res => res.json())
       .then(res => {
         res.error && reject(res.error);
@@ -80,26 +80,20 @@ export const getProductBy = async (idType, idValue) =>
 
 
 /**
- * @typedef {'UPC' | 'TCIN' | 'WalmartItemId'} ProductIdType
+ * @typedef {'Walmart' | 'Kroger' | 'Target'} ProductVendor
  */
 
 /**
  * @typedef {Object} Product
  * @property {string} productName
  * @property {string} productSize
- * @property {ProductId[]} productIds
- * @property {ProductPrice[]} prices
+ * @property {ProductStore[]} stores
  */
 
 /**
- * @typedef {Object} ProductId
- * @property {ProductIdType} idType
- * @property {string} idValue
- */
-
-/**
- * @typedef {Object} ProductPrice
- * @property {string} vendor
+ * @typedef {Object} ProductStore
+ * @property {string} name
+ * @property {string} itemId
  * @property {number} price
  * @property {boolean} onSale
  * @property {number} originalPrice

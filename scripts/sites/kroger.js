@@ -1,6 +1,6 @@
 (async function main() {
   const getUpcFromUrl = () => {
-    return window.location.href.split('/').pop().match(/([0-9])+/)[0];
+    return window.location.pathname.split('/').pop().match(/([0-9])+/)[0];
   }
 
   const utils = await import('../utils.js');
@@ -13,9 +13,9 @@
 
   let returnedProduct;
 
-  await utils.getProductBy('UPC', upc)
+  await utils.getProduct('Kroger', upc)
     .then((response) => {
-      returnedProduct = response?.[0];
+      returnedProduct = response;
     })
     .catch(() => {
       console.log('no product found for upc', upc);
@@ -33,5 +33,5 @@
   //Send product information to Popup
   chrome.runtime.sendMessage(message);
   console.log('found product', returnedProduct.productName)
-  console.table(returnedProduct.prices)
+  console.table(returnedProduct.stores)
 })()

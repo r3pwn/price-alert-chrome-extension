@@ -1,6 +1,6 @@
 (async function main() {
   const getItemIdFromUrl = () => {
-    return window.location.href.split('/').pop().match(/([0-9])+/)[0];
+    return window.location.pathname.split('/').pop().match(/([0-9])+/)[0];
   }
 
   const utils = await import('../utils.js');
@@ -13,9 +13,9 @@
 
   let returnedProduct;
 
-  await utils.getProductBy('WalmartItemId', itemId)
+  await utils.getProduct('Walmart', itemId)
   .then((response) => {
-    returnedProduct = response?.[0];
+    returnedProduct = response;
   })
   .catch(() => {
     console.log('no product found for itemId', itemId);
@@ -33,5 +33,5 @@
   //Send product information to Popup
   chrome.runtime.sendMessage(message);
   console.log('found product', returnedProduct.productName)
-  console.table(returnedProduct.prices)
+  console.table(returnedProduct.stores)
 })()
