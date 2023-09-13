@@ -49,22 +49,15 @@ const populateData = (productData) => {
     }
     
     productData.stores.forEach(store => {
-        const $tempElement = $("<div></div>");
-        $tempElement.load(`${TEMPLATES}/StorePriceInfo.html`, () => {
-            const $listElement = $tempElement.find(".store")
-            const $image = $tempElement.find(".store-image")[0]
-            const $storeName = $tempElement.find(".store-name")[0]
-            const $percentage = $tempElement.find(".price-percentage")[0]
-            const $price = $tempElement.find(".price")[0]
-    
-            $image.src = STORES[store.name.toUpperCase()]?.image;
-            $image.alt = STORES[store.name.toUpperCase()]?.name;
-            $storeName.innerText = STORES[store.name.toUpperCase()]?.name;
-
-            $price.innerText = `$${store.price.toFixed(2)}`
-    
-            $(".store-list").append($listElement);
-        });
+        const productCard = document.createElement('product-card')
+        productCard.setAttribute('id', 'product-' + STORES[store.name.toUpperCase()]?.name)
+        productCard.product = {
+            image: STORES[store.name.toUpperCase()]?.image,
+            imageAlt: STORES[store.name.toUpperCase()]?.name,
+            store: STORES[store.name.toUpperCase()]?.name,
+            price: store.price.toFixed(2)
+        }
+        $(".store-list").append(productCard)
     })
 }
 
