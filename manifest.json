@@ -21,7 +21,7 @@
     },
     "default_popup": "popup.html"
   },
-  "permissions": ["scripting", "activeTab", "webNavigation"],
+  "permissions": ["scripting", "activeTab", "webNavigation", "storage"],
   "host_permissions": [
     "https://www.kroger.com/p/*",
     "https://www.target.com/p/*",

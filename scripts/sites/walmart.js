@@ -26,6 +26,12 @@
     return;
   }
 
+  const message = {
+    sender: 'price-analysis:walmart',
+    product: returnedProduct
+  }
+  //Send product information to Popup
+  chrome.runtime.sendMessage(message);
   console.log('found product', returnedProduct.productName)
   console.table(returnedProduct.prices)
 })()
