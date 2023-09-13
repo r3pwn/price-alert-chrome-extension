@@ -9,6 +9,12 @@ chrome.action.onClicked.addListener(async (tab) => {
   console.log('icon was clicked!')
 });
 
+chrome.runtime.onMessage.addListener((request, sender) => {
+  if(request.sender?.includes('price-analysis')) {
+    chrome.storage.local.set({"item": JSON.stringify(request)})
+  }
+})
+
 for (let path of Object.keys(SITES)) {
   const listener = async (details) => {
     await chrome.scripting.insertCSS({

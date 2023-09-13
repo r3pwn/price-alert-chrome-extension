@@ -23,22 +23,32 @@ const STORES = {
 //Document Hooks
 const $listwrapper = $('#list-wrapper')
 
-const getData = async () => {
-    let data = {};
-    try {
-        data = await (await fetch(API_URL)).json()
-    }
-    catch (err) {
-        if (err) {
-            $listwrapper.load(`${TEMPLATES}/ErrorOnRequest.html`);
+// Are we in a supported site?
+let inSupportedStoreSite = false;
+chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+    inSupportedStoreSite = Object.keys(STORES)
+        .some(key => tabs[0].url.includes(key.toLowerCase()))
+        
+        if (!inSupportedStoreSite) {
+            console.error('Store not supported!')
+            renderNoPricesFound();
             return;
         }
+        chrome.storage.local.get(["item"]).then(result => populateData(JSON.parse(result.item).product))
+})
+
+
+const populateData = (productData) => {
+    if (productData.error) {
+        renderRequestError();
+        return;
     }
-    if (!data.stores?.length) {
-        $listwrapper.load(`${TEMPLATES}/NoPricesFound.html`)
+    if (!productData.stores?.length) {
+        renderNoPricesFound();
+        return;
     }
     
-    data.stores.forEach(store => {
+    productData.stores.forEach(store => {
         const $tempElement = $("<div></div>");
         $tempElement.load(`${TEMPLATES}/StorePriceInfo.html`, () => {
             const $listElement = $tempElement.find(".store")
@@ -47,16 +57,21 @@ const getData = async () => {
             const $percentage = $tempElement.find(".price-percentage")[0]
             const $price = $tempElement.find(".price")[0]
     
-            $image.src = STORES[store.storeName.toUpperCase()]?.image;
-            $image.alt = STORES[store.storeName.toUpperCase()]?.name;
-            $storeName.innerText = STORES[store.storeName.toUpperCase()]?.name;
+            $image.src = STORES[store.name.toUpperCase()]?.image;
+            $image.alt = STORES[store.name.toUpperCase()]?.name;
+            $storeName.innerText = STORES[store.name.toUpperCase()]?.name;
 
-            $price.innerText = `$${store.price}`
+            $price.innerText = `$${store.price.toFixed(2)}`
     
             $(".store-list").append($listElement);
         });
     })
 }
 
-getData();
+const renderNoPricesFound = () => {
+    $listwrapper.load(`${TEMPLATES}/NoPricesFound.html`)
+}
 
+const renderRequestError = () => {
+    $listwrapper.load(`${TEMPLATES}/ErrorOnRequest.html`)
+}
