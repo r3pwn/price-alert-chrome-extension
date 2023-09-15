@@ -67,6 +67,10 @@ const populateData = (productData) => {
       cardWrapper.classList.add('card-wrapper');
     }
 
+    const currentStorePrice = productData.stores.find(dataStore => {
+      return dataStore.name.toLowerCase() === currentStore.name.toLowerCase();
+    })?.price;
+
     const productCard = document.createElement('store-product-card');
     productCard.setAttribute('id', `product-${storeData.name}`)
     productCard.product = {
@@ -74,8 +78,10 @@ const populateData = (productData) => {
       imageAlt: `${storeData.name} logo`,
       store: storeData.name,
       price: store.price ? `$${store.price?.toFixed(2)}` : '',
-      originalPrice: store.originalPrice ? `$${store.originalPrice.toFixed(2)}` : ''
-    }
+      originalPrice: store.originalPrice ? `$${store.originalPrice.toFixed(2)}` : '',
+      percentageDifference: calculatePercentageDifferece(currentStorePrice , store.price),
+      percentageIndicator: currentStorePrice < store.price ? `&#9650;` : currentStorePrice === store.price ? '-' : `&#9660;`
+      }
 
     if (storeData !== currentStore) { 
       cardWrapper.append(productCard);
@@ -104,3 +110,12 @@ const slugify = (str, separator = '-') => {
     .replace(/[^a-z0-9 ]/g, '')
     .replace(/\s+/g, separator);
 };
+/**
+ * 
+ * @param {Number} currentStorePrice - Price in the current store
+ * @param {Number} competitiorPrice - Price in the competitor store
+ * @returns {String} The percentage difference, fixed to the last two decimal places.
+ */
+const calculatePercentageDifferece = (currentStorePrice, competitiorPrice) => {
+  return ((Math.abs(competitiorPrice - currentStorePrice) / (Math.abs(competitiorPrice + currentStorePrice) / 2)) * 100).toFixed(2)
+}

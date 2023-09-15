@@ -16,6 +16,20 @@ class StoreProductCard extends HTMLElement {
     return this._product
   }
 
+  renderPercentageDifference () {
+    if (!this.product?.percentageDifference || this.product?.percentageDifference === '0.00')
+    {
+      return ``
+    } else if (this.product?.percentageIndicator) {
+      console.warn('[StoreProductCard] - No percentage indicator present while using percentage difference!')
+    }
+    return `
+      <div class="card-price-difference">
+          <p class="card-content-percentage-difference"><span class="percentage-difference-indicator">${this.product?.percentageIndicator || '-'}</span> ${this.product?.percentageDifference || '0'}%</p>
+      </div>
+    `
+  }
+
   render() {
     this.shadow.innerHTML = `
     <div class="card-body">
@@ -29,6 +43,7 @@ class StoreProductCard extends HTMLElement {
           <p class="card-content-original-price">${this.product?.originalPrice}</p>
         </div>
       </div>
+      ${this.renderPercentageDifference()}
     </div>
 
     <style>
@@ -67,6 +82,13 @@ class StoreProductCard extends HTMLElement {
     }
     .card-content-original-price {
       text-decoration: line-through;
+    }
+    .card-price-difference {
+      margin-left: auto;
+      padding: 1rem;
+    }
+    .card-content-percentage-difference {
+      font-size: 1rem;
     }
     </style>
     `
