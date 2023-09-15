@@ -1,4 +1,4 @@
-class ProductCard extends HTMLElement {
+class StoreProductCard extends HTMLElement {
     constructor() {
         super()
 
@@ -59,4 +59,4 @@ class ProductCard extends HTMLElement {
     }
 }
 
-customElements.define("product-card", ProductCard)
+customElements.define("store-product-card", StoreProductCard)

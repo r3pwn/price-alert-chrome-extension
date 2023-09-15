@@ -1,6 +1,5 @@
 //CONSTANTS
-const API_URL = 'https://mocki.io/v1/c3e9cbec-0bb1-4481-9913-197cb355329e'
-const TEMPLATES = '../templates/'
+const TEMPLATES = './templates/'
 const STORES = {
     PUBLIX: {
         name: "Publix",
@@ -39,17 +38,15 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
 
 
 const populateData = (productData) => {
-    if (productData.error) {
-        renderRequestError();
-        return;
-    }
-    if (!productData.stores?.length) {
+    if (!productData?.stores?.length) {
         renderNoPricesFound();
         return;
     }
     
+    $('.product-title').text(productData.productName);
+    
     productData.stores.forEach(store => {
-        const productCard = document.createElement('product-card')
+        const productCard = document.createElement('store-product-card')
         productCard.setAttribute('id', 'product-' + STORES[store.name.toUpperCase()]?.name)
         productCard.product = {
             image: STORES[store.name.toUpperCase()]?.image,
@@ -63,8 +60,4 @@ const populateData = (productData) => {
 
 const renderNoPricesFound = () => {
     $listwrapper.load(`${TEMPLATES}/NoPricesFound.html`)
-}
-
-const renderRequestError = () => {
-    $listwrapper.load(`${TEMPLATES}/ErrorOnRequest.html`)
 }
