@@ -35,3 +35,11 @@
   margin: 0;
   padding: 0.5rem 1rem;
 }
+
+a.card-wrapper {
+  text-decoration: none;
+}
+
+a.card-wrapper:hover, a.card-wrapper:active {
+  text-decoration: underline;
+}

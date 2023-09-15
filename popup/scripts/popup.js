@@ -8,7 +8,8 @@ const STORES = [
   {
     name: 'Target',
     image: '/images/store-logos/Target-Logo.png',
-    path: 'https://www.target.com/p/'
+    path: 'https://www.target.com/p/',
+    productIdPrefix: 'A-'
   },
   {
     name: 'Walmart',
@@ -19,6 +20,15 @@ const STORES = [
 
 //Document Hooks
 const $listwrapper = $('#list-wrapper')
+let currentStore = '';
+
+// open new links in a new tab on the browser
+$(document).ready(function(){
+  $('body').on('click', 'a', function(){
+    chrome.tabs.create({url: $(this).attr('href')});
+    return false;
+  });
+});
 
 // Are we in a supported site?
 chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
@@ -28,6 +38,8 @@ chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
     renderNotSupportedPage();
     return;
   }
+
+  currentStore = STORES.find(store => tabs[0].url.startsWith(store.path));
 
   chrome.storage.local.get(["item"]).then(result => populateData(JSON.parse(result.item).product))
 })
@@ -46,15 +58,31 @@ const populateData = (productData) => {
       // we don't support displaying this store's values (yet)
       continue;
     }
-    const productCard = document.createElement('store-product-card')
+
+    const itemId = storeData.productIdPrefix ? `${storeData.productIdPrefix}${store.itemId}` : store.itemId;
+
+    const cardWrapper = document.createElement('a');
+    if (storeData !== currentStore) {
+      cardWrapper.href = `${storeData.path}${slugify(productData.productName)}/${itemId}`;
+      cardWrapper.classList.add('card-wrapper');
+    }
+
+    const productCard = document.createElement('store-product-card');
     productCard.setAttribute('id', `product-${storeData.name}`)
     productCard.product = {
       image: storeData.image,
       imageAlt: `${storeData.name} logo`,
       store: storeData.name,
-      price: store.price.toFixed(2)
+      price: store.price ? `$${store.price?.toFixed(2)}` : '',
+      originalPrice: store.originalPrice ? `$${store.originalPrice.toFixed(2)}` : ''
     }
-    $('.store-list').append(productCard);
+
+    if (storeData !== currentStore) { 
+      cardWrapper.append(productCard);
+      $('.store-list').append(cardWrapper);
+    } else {
+      $('.store-list').append(productCard);
+    }
   }
 }
 
@@ -65,3 +93,14 @@ const renderNotSupportedPage = () => {
 const renderNoPricesFound = () => {
   $listwrapper.load(`${TEMPLATES}/NoPricesFound.html`)
 }
+
+const slugify = (str, separator = '-') => {
+  return str
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, separator);
+};
