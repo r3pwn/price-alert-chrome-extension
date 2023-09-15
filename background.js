@@ -39,8 +39,8 @@ for (let path of Object.keys(SITES)) {
    */
   chrome.webNavigation.onDOMContentLoaded.addListener(listener, filter);
   chrome.webNavigation.onHistoryStateUpdated.addListener(listener, filter);
-
-  // onCompleted and onErrorOccurred, we want to reset the activeUrl so the extension will load again
-  chrome.webNavigation.onCompleted.addListener(() => { activeUrl = ''; }, filter);
-  chrome.webNavigation.onErrorOccurred.addListener(() => { activeUrl = ''; }, filter);
 }
+
+// onCompleted and onErrorOccurred, we want to reset the activeUrl so the extension will load again
+chrome.webNavigation.onCompleted.addListener(() => { activeUrl = ''; });
+chrome.webNavigation.onErrorOccurred.addListener(() => { activeUrl = ''; });
