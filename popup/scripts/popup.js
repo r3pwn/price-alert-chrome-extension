@@ -111,7 +111,7 @@ const slugify = (str, separator = '-') => {
     .replace(/\s+/g, separator);
 };
 /**
- * 
+ * Calulate the percentage difference between two numbers
  * @param {Number} currentStorePrice - Price in the current store
  * @param {Number} competitiorPrice - Price in the competitor store
  * @returns {String} The percentage difference, fixed to the last two decimal places.
