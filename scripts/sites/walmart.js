@@ -8,9 +8,6 @@
   const itemId = getItemIdFromUrl();
   const priceBadge = await utils.waitForElement('[itemprop="price"]');
 
-  // for debugging purposes. remove later
-  priceBadge.classList.add('visually-distinct-price-badge');
-
   utils.addExtensionMessage(priceBadge)
 
   let returnedProduct;
@@ -25,6 +22,10 @@
 
   if (!returnedProduct) {
     // we don't have info on this product, we can skip it for now
+    chrome.runtime.sendMessage({
+      sender: 'price-analysis:walmart',
+      product: null
+    });
     return;
   }
 
@@ -34,6 +35,4 @@
   }
   //Send product information to Popup
   chrome.runtime.sendMessage(message);
-  console.log('found product', returnedProduct.productName)
-  console.table(returnedProduct.stores)
 })()
