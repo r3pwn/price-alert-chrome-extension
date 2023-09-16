@@ -20,9 +20,7 @@ class StoreProductCard extends HTMLElement {
     if (!this.product?.percentageDifference || this.product?.percentageDifference === '0.00')
     {
       return ``
-    } else if (this.product?.percentageIndicator) {
-      console.warn('[StoreProductCard] - No percentage indicator present while using percentage difference!')
-    }
+    } 
     return `
       <div class="card-price-difference">
           <p class="card-content-percentage-difference"><span class="percentage-difference-indicator">${this.product?.percentageIndicator || '-'}</span> ${this.product?.percentageDifference || '0'}%</p>
